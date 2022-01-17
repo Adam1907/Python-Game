@@ -1,9 +1,11 @@
 import pygame
 import sys
 import random
+import logging
 
 from snake import snake
 from food import food
+
 
 # pygame.mixer.pre_init()
 pygame.init()
@@ -12,6 +14,7 @@ pygame.display.set_caption('Cobra')
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
+FPS = 15
 
 GRIDSIZE = 20
 GRID_WIDTH = SCREEN_HEIGHT / GRIDSIZE
@@ -47,15 +50,18 @@ def main():
 
     score = 0
     while True:
-        clock.tick(15)
+        clock.tick(FPS)
         snakeOBJ.handle_keys()
         drawGrid(surface)
         snakeOBJ.move()
+
         if snakeOBJ.get_head_position() == foodOBJ.position:
             pygame.mixer.Sound.play(eating)
             snakeOBJ.length += 1
             score += 1
             foodOBJ.randomize_position()
+
+
         snakeOBJ.draw(surface)
         foodOBJ.draw(surface)
         screen.blit(surface, (0, 0))
@@ -63,4 +69,5 @@ def main():
         screen.blit(text, (5, 10))
         pygame.display.update()
 
-main()
+#main()
+
