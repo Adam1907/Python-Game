@@ -1,13 +1,10 @@
 import pygame
-import sys
-import random
-import logging
+import pygame_menu
 
 from snake import snake
 from food import food
 
 
-# pygame.mixer.pre_init()
 pygame.init()
 
 pygame.display.set_caption('Cobra')
@@ -20,7 +17,9 @@ GRIDSIZE = 20
 GRID_WIDTH = SCREEN_HEIGHT / GRIDSIZE
 GRID_HEIGHT = SCREEN_WIDTH / GRIDSIZE
 
+
 eating = pygame.mixer.Sound("sound/eating.wav")
+over = pygame.mixer.Sound("sound/game_over.wav")
 
 
 def drawGrid(surface):
@@ -62,12 +61,18 @@ def main():
             foodOBJ.randomize_position()
 
 
+        if snakeOBJ.state == 0:
+            game_over = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+            menu = pygame_menu.Menu('G A M E  O V E R!', SCREEN_WIDTH, SCREEN_HEIGHT, theme=pygame_menu.themes.THEME_DARK)
+            menu.add.button('YOUR SCORE: {}'.format(score))
+            menu.add.button('Quit', pygame_menu.events.EXIT)
+            pygame.mixer.Sound.play(over)
+            menu.mainloop(game_over)
+
+
         snakeOBJ.draw(surface)
         foodOBJ.draw(surface)
         screen.blit(surface, (0, 0))
         text = myfont.render("SCORE: {0}".format(score), 1, (0, 0, 0))
         screen.blit(text, (5, 10))
         pygame.display.update()
-
-#main()
-

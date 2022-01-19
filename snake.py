@@ -17,6 +17,7 @@ GRID_HEIGHT = SCREEN_WIDTH / GRIDSIZE
 
 class snake:
     def __init__(self):
+        self.state = 1
         self.length = 1
         self.positions = [((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2))]
         self.direction = random.choice([UP, DOWN, LEFT, RIGHT])
@@ -40,8 +41,7 @@ class snake:
         )
         #
         if len(self.positions) > 2 and new in self.positions[2:]:
-            pygame.quit()
-            sys.exit()
+            self.state = 0
         else:
             self.positions.insert(0, new)
             if len(self.positions) > self.length:
